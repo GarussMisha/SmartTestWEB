@@ -1,26 +1,51 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div id="app">
+    <HeaderComponent />
+    <SidebarComponent v-if="isAuthenticated" />
+    <div class="registration-wrapper" v-if="isRegistrationActive">
+      <RegistrationComponent @cancel-registration="isRegistrationActive = false" />
+    </div>
+    <!-- Остальной контент приложения -->
+  </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import HeaderComponent from './components/HeaderComponent.vue';
+import SidebarComponent from './components/SidebarComponent.vue';
+import RegistrationComponent from './components/RegistrationComponent.vue';
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
-  }
-}
+    HeaderComponent,
+    SidebarComponent,
+    RegistrationComponent,
+  },
+  data() {
+    return {
+      isAuthenticated: true, // Заменить на true, если пользователь авторизован
+      isRegistrationActive: false, // Статус для отображения компонента регистрации
+    };
+  },
+};
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+html, body, #app {
+  background-color: #00220f15;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif; /* Применяет шрифт ко всему приложению */
+}
+
+.registration-wrapper {
+  padding: 100px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
 }
 </style>
