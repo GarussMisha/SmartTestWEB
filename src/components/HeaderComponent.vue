@@ -4,8 +4,10 @@
       <button @click="goToHome">Logo</button>
     </div>
     <div class="auth-buttons">
-      <button @click="goToLogin">Login</button>
-      <button @click="goToRegister">Register</button>
+      <button v-if="!isAuthenticated" @click="goToLogin">Login</button>
+      <button v-if="!isAuthenticated" @click="goToRegister">Register</button>
+      <button v-if="isAuthenticated" @click="goToProfile">Profile</button>
+      <button v-if="isAuthenticated" @click="goToLogout">Logout</button>
     </div>
   </header>
 </template>
@@ -13,6 +15,12 @@
 <script>
 export default {
   name: "HeaderComponent",
+  props: {
+    isAuthenticated: {
+      type: Boolean,
+      required: true,
+    },
+  },
   methods: {
     goToHome() {
       // Логика для перехода на главную страницу
@@ -20,11 +28,19 @@ export default {
     },
     goToLogin() {
       // Логика для перехода на страницу входа
-      this.$router.push("/login");
+      this.$emit("login");
     },
     goToRegister() {
       // Логика для перехода на страницу регистрации
-      this.$router.push("/register");
+      this.$emit("registration");
+    },
+    goToProfile() {
+      // Логика для перехода на страницу профиля
+      this.$router.push("/profile");
+    },
+    goToLogout() {
+      // Логика для выхода из системы
+      this.$emit("logout");
     }
   }
 };
